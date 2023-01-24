@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Times table challenge</title>
+        <style>
+            table, th, td {
+                border: 1px dashed black;
+                border-collapse: collapse;
+            }
+            td {
+                height: 30px;
+                width: 200px;
+                padding: 5px;
+                font-family: comic sans ms;
+            }
+            .frac {
+                display: inline-block;
+                position: relative;
+                vertical-align: middle;
+                letter-spacing: 0.001em;
+                text-align: center;
+            }
+            .frac > span {
+                display: block;
+                padding: 0.1em;
+            }
+            .frac span.bottom {
+                border-top: thin solid black;
+            }
+            .frac span.symbol {
+                display: none;
+            } 
+        </style>
+    </head>
+    <body onload="populate()">
+        <table>
+            <tbody id="math_table_body"></tbody>
+        </table>
+        <script>
+            function problem() {
+                let type = Math.floor(Math.random() * 3);
+                let num1 = Math.floor(Math.random() * 11) + 2;
+                let num2 = Math.floor(Math.random() * 11) + 2;
+                let result = num1 * num2;
+
+                if (type < 2) {
+                    let obfuscate = Math.floor(Math.random() * 3);
+                    if (obfuscate == 0) { num1 = "___"; }
+                    else if (obfuscate == 1) { num2 = "___"; }
+                    else if (obfuscate == 2) { result = "___"; }
+                }
+
+                td = document.createElement('td')
+                if (type == 0) {
+                    // Multiplication problem
+                    td.textContent = num1 + ' × ' + num2 + ' = ' + result;
+                }
+                else if (type == 1) {
+                    // Division problem
+                    td.textContent = result + ' ÷ ' + num2 + ' = ' + num1;
+                }
+                else {
+                    // Fraction problem
+                    td.innerHTML = '<div class="frac"><span>1</span><span class="symbol">/</span><span class="bottom">' + num2 + '</span></div>' + ' of ' + result + ' = ___'
+                }
+
+                return td;
+            }
+
+            function populate() {
+                const table_body = document.querySelector('#math_table_body');
+                for (let i=0; i<25; i++) {
+                    let row = document.createElement('tr');
+                    for (let j=0; j<4; j++) {
+                        let table_data = problem();
+                        row.appendChild(table_data);
+                    }
+                    table_body.appendChild(row);
+                }
+            }
+        </script>
+    </body>
+</html>
