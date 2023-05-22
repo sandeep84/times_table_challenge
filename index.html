@@ -8,10 +8,11 @@
                 border-collapse: collapse;
             }
             td {
-                height: 30px;
+                /* height: 30px; */
                 width: 200px;
                 padding: 5px;
                 font-family: comic sans ms;
+                font-size: 0.8em;
             }
             .frac {
                 display: inline-block;
@@ -38,16 +39,40 @@
         </table>
         <script>
             function problem() {
-                let type = Math.floor(Math.random() * 3);
-                let num1 = Math.floor(Math.random() * 11) + 2;
-                let num2 = Math.floor(Math.random() * 11) + 2;
-                let result = num1 * num2;
+                let type = 3; //Math.floor(Math.random() * 3);
+                var num1 = Math.floor(Math.random() * 11) + 2;
+                var num2 = Math.floor(Math.random() * 11) + 2;
+                var num3 = 1
+                var result = num1 * num2;
 
                 if (type < 2) {
                     let obfuscate = Math.floor(Math.random() * 3);
                     if (obfuscate == 0) { num1 = "___"; }
                     else if (obfuscate == 1) { num2 = "___"; }
                     else if (obfuscate == 2) { result = "___"; }
+                }
+                else if (type == 2) {
+                    let obfuscate = Math.floor(Math.random() * 2);
+                    if (obfuscate == 0) { num1 = "___"; }
+                    else if (obfuscate == 1) { result = "___"; }
+                }
+                else if (type == 3) {
+                    num2 = Math.floor(Math.random() * 11) + 2;
+                    num3 = Math.floor(Math.random() * 12) + 1;
+                    num4 = Math.floor(Math.random() * 11) + 2;
+
+                    // output is of form num3/num2 * res = num1
+                    if (num2 < num3) {
+                        let t = num2;
+                        num2 = num3;
+                        num3 = t;
+                    }
+                    result = num2 * num4;
+                    num1 = num3 * num4;
+
+                    let obfuscate = Math.floor(Math.random() * 2);
+                    if (obfuscate == 0) { num1 = "___"; }
+                    else if (obfuscate == 1) { result = "___"; }
                 }
 
                 td = document.createElement('td')
@@ -61,7 +86,7 @@
                 }
                 else {
                     // Fraction problem
-                    td.innerHTML = '<div class="frac"><span>1</span><span class="symbol">/</span><span class="bottom">' + num2 + '</span></div>' + ' of ' + result + ' = ___'
+                    td.innerHTML = '<div class="frac"><span>' + num3 + '</span><span class="symbol">/</span><span class="bottom">' + num2 + '</span></div>' + ' of ' + result + ' = ' + num1
                 }
 
                 return td;
@@ -69,9 +94,9 @@
 
             function populate() {
                 const table_body = document.querySelector('#math_table_body');
-                for (let i=0; i<25; i++) {
+                for (let i=0; i<20; i++) {
                     let row = document.createElement('tr');
-                    for (let j=0; j<4; j++) {
+                    for (let j=0; j<5; j++) {
                         let table_data = problem();
                         row.appendChild(table_data);
                     }
